@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>320x50</title>
+
+<link href='https://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
+<script src="https://code.createjs.com/easeljs-0.7.1.min.js"></script>
+<script src="https://code.createjs.com/tweenjs-0.5.1.min.js"></script>
+<script src="https://code.createjs.com/movieclip-0.7.1.min.js"></script>
+<script src="https://code.createjs.com/preloadjs-0.4.1.min.js"></script>
+<script src="320x50_thousands.js"></script>
+
+<script>
+var canvas, stage, exportRoot;
+
+function init() {
+	canvas = document.getElementById("canvas");
+	images = images||{};
+
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", handleFileLoad);
+	loader.addEventListener("complete", handleComplete);
+	loader.loadManifest(lib.properties.manifest);
+}
+
+function handleFileLoad(evt) {
+	if (evt.item.type == "image") { images[evt.item.id] = evt.result; }
+}
+
+function handleComplete(evt) {
+	exportRoot = new lib._320x50_thousands();
+
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);
+	stage.update();
+
+	createjs.Ticker.setFPS(lib.properties.fps);
+	createjs.Ticker.addEventListener("tick", stage);
+}
+
+var firefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+if (firefox && createjs)
+{
+    createjs.Text.prototype._drawTextLine = function(ctx, text, y) 
+    {
+        // Adjust text position only if textBaseline is "top"
+        if (this.textBaseline === "top") 
+        {
+            var lineHeight = this.lineHeight || this.getMeasuredLineHeight();
+            y += lineHeight * 0.3;
+        }
+        // Chrome 17 will fail to draw the text if the last param is included but null, so we feed it a large value instead:
+        if (this.outline) { ctx.strokeText(text, 0, y, this.maxWidth||0xFFFF); }
+        else { ctx.fillText(text, 0, y, this.maxWidth||0xFFFF); }
+    };
+}
+</script>
+<style>
+	#bg-exit {
+		background-color: rgba(255,255,255,0);
+		cursor: pointer;
+		width: 320px;
+		height: 50px;
+		left: 0px;
+		position: absolute;
+		top: 0px;
+		z-index: 5000;
+		cursor: pointer;
+	}
+</style>
+</head>
+
+<body onload="init();" style="background-color:#fff;margin:0;padding:0;">
+	<div id="bg-exit"></div>
+	<canvas id="canvas" width="320" height="50" style="background-color:#FFFFFF"></canvas>
+</body>
+
+<script>
+	 var clickTag = "http://www.tccenroll.com";
+
+	  function bgExitHandler(e) {
+		  window.open(window.clickTag);
+		  console.log("clicked");
+	  }
+	  document.getElementById('bg-exit').addEventListener('click', bgExitHandler, false);
+</script>
+</html>

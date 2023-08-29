@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <link rel="stylesheet" href="pushdown.css" />
+</head>
+<body style="background-color:#fff;margin:0;padding:0;">
+  <div class="rmu-wrap pushdown-wrap" id="bgdiv">
+    <div class="pushdown">
+      <a href="#"></a>
+    </div>
+    <div class="rmu-container">
+      <a href="#" class="close" title="Close"></a>      
+       <div class="rmu-overlay-back">
+	   		<video controls poster="poster.jpg" width="320" id="myVideo">
+				<source src="transfer.mp4" type="video/mp4" />
+			</video>
+       </div>
+       <div class="rmu-bgclick"></div>
+    </div>
+  </div>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script type="text/javascript" src="rmu.js"></script>
+  <script type="text/javascript">
+	var rmu_timeout;
+    var $j = jQuery.noConflict();
+	$j(document).ready(function() {
+	new DIAAdvertising.Pushdown({
+        id: 'bgdiv',
+        img: '728x270_expanded_transfer1.jpg', 
+		targetUrl: 'http://go.tcc.edu/transfer' 
+    });	
+
+	$j('.rmu-bgclick').click(function() {		
+		window.open('http://go.tcc.edu/transfer')
+	});
+});	
+  </script>
+</body>
+</html>
